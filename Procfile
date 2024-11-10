@@ -1,1 +1,1 @@
-web: ./hello.cpp
+web: ./hello
