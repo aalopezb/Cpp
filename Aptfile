@@ -1,8 +1,4 @@
-# Aptfile
-deb http://nginx.org/packages/ubuntu/ noble nginx
-deb-src http://nginx.org/packages/ubuntu/ noble nginx
-
 libfcgi0ldbl
 fcgiwrap
 spawn-fcgi
-nginx
+httpd
