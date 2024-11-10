@@ -1,4 +1,4 @@
-libfcgi0ldbl
+libfcgi-dev
 fcgiwrap
 spawn-fcgi
-httpd
+nginx
