@@ -16,18 +16,20 @@ RUN g++ hello.cpp -o hello.cgi -lfcgi
 # Stage 2: Set up the Nginx server with FastCGI in a lighter image
 FROM debian:bookworm-slim
 
-# Install Nginx and fcgiwrap
-RUN apt-get update && apt-get install -y nginx fcgiwrap && rm -rf /var/lib/apt/lists/*
+# Install Nginx, fcgiwrap, spawn-fcgi, and other necessary packages
+RUN apt-get update && apt-get install -y nginx fcgiwrap spawn-fcgi && rm -rf /var/lib/apt/lists/*
 
 # Copy the compiled binary from the build stage
 COPY --from=builder /app/hello.cgi /usr/lib/cgi-bin/
 
-# Copy Nginx configuration files
+# Copy Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY fcgiwrap.conf /etc/default/fcgiwrap
+
+# Create a directory for the socket and adjust permissions
+RUN mkdir -p /var/run/fcgiwrap && chown www-data:www-data /var/run/fcgiwrap
 
 # Expose port 80
 EXPOSE 80
 
-# Command to run Nginx in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Start fcgiwrap and Nginx when the container starts
+CMD spawn-fcgi -s /var/run/fcgiwrap.socket -u www-data -g www-data /usr/sbin/fcgiwrap && nginx -g "daemon off;"
