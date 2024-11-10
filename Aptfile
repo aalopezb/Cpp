@@ -1,4 +1,3 @@
-libfcgi-dev
 fcgiwrap
 spawn-fcgi
 nginx
