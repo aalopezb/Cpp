@@ -19,7 +19,7 @@ cpp/ <br>
 
 ### 1. Build the Docker Image
 docker build -t hello_cpp .
-docker run -p 80:80 hello-world-cpp
+docker run -p 80:80 hello_cpp
 Open your browser and navigate to: http://localhost
 
 ## Creator
